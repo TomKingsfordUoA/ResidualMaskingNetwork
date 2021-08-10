@@ -1,12 +1,13 @@
-import os
-import glob
+import importlib.resources
 import json
+import os
+
 import cv2
 import numpy as np
 import torch
 from torchvision.transforms import transforms
-from models import densenet121, resmasking_dropout1
-from .version import __version__
+
+from .models import densenet121, resmasking_dropout1
 
 
 def show(img, name="disp", width=1000):
@@ -22,13 +23,13 @@ def show(img, name="disp", width=1000):
 
 
 checkpoint_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/Z_resmasking_dropout1_rot30_2019Nov30_13.32"
-local_checkpoint_path = "pretrained_ckpt"
+local_checkpoint_path = os.path.join(os.path.dirname(__file__), 'resources/pretrained_ckpt')
 
 prototxt_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/deploy.prototxt.txt"
-local_prototxt_path = "deploy.prototxt.txt"
+local_prototxt_path = os.path.join(os.path.dirname(__file__), 'resources/deploy.prototxt.txt')
 
 ssd_checkpoint_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/res10_300x300_ssd_iter_140000.caffemodel"
-local_ssd_checkpoint_path = "res10_300x300_ssd_iter_140000.caffemodel"
+local_ssd_checkpoint_path = os.path.join(os.path.dirname(__file__), 'resources/res10_300x300_ssd_iter_140000.caffemodel')
 
 
 def download_checkpoint(remote_url, local_path):
@@ -148,23 +149,6 @@ class RMN:
 
     @torch.no_grad()
     def detect_emotion_for_single_face_image(self, face_image):
-        """
-        Params:
-        -----------
-        face_image : np.ndarray
-            a cropped face image
-
-        Return:
-        -----------
-        emo_label : str
-            dominant emotion label
-
-        emo_proba : float 
-            dominant emotion proba
-
-        proba_list : list
-            all emotion label and their proba
-        """
         assert isinstance(face_image, np.ndarray)
         face_image = ensure_color(face_image)
         face_image = cv2.resize(face_image, image_size)
@@ -205,6 +189,7 @@ class RMN:
                 frame = np.fliplr(frame).astype(np.uint8)
 
                 results = self.detect_emotion_for_single_frame(frame)
+                print(results)
                 frame = self.draw(frame, results)
 
                 cv2.rectangle(frame, (1, 1), (220, 25), (223, 128, 255), cv2.FILLED)
@@ -221,17 +206,6 @@ class RMN:
     
     @staticmethod
     def draw(frame, results):
-        """
-        Params:
-        ---------
-        frame : np.ndarray
-
-        results : list of dict.keys('xmin', 'xmax', 'ymin', 'ymax', 'emo_label', 'emo_proba')
-
-        Returns:
-        ---------
-        frame : np.ndarray
-        """
         for r in results:
             xmin = r["xmin"]
             xmax = r["xmax"]
@@ -303,8 +277,7 @@ class RMN:
 
         results = []
         face_results = self.detect_faces(frame)
-        print(f"num faces: {len(face_results)}")
-            
+
         for face in face_results:
             xmin = face["xmin"]
             ymin = face["ymin"]
