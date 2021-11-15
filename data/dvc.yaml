@@ -1,0 +1,16 @@
+stages:
+  extract_fer2013:
+    cmd: cd FER2013; tar -xzf fer2013.tar.gz; mv fer2013 ../fer2013_extracted
+    deps:
+    - FER2013
+    outs:
+    - fer2013_extracted
+  train_val_test_split_fer2013:
+    cmd: python3 split_data.py
+    deps:
+    - fer2013_extracted
+    - split_data.py
+    outs:
+    - test.csv
+    - train.csv
+    - val.csv

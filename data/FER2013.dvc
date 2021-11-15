@@ -1,0 +1,12 @@
+md5: 038d1ef94a46266e4bfd877818d2631c
+frozen: true
+deps:
+- path: emotion/FER2013
+  repo:
+    url: ssh://git@gitlabnext.internal.thomaskingsford.com:8022/tom/dataset-registry.git
+    rev_lock: 0516e812ca22efb8dcc6546a121d88a4da1ccc08
+outs:
+- md5: 7ee7c16cb81f6f288686b15989a9b9b7.dir
+  size: 698338959
+  nfiles: 5
+  path: FER2013

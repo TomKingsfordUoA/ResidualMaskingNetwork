@@ -1,0 +1,4 @@
+*.csv
+/FER2013/*
+/FER2013
+/fer2013_extracted

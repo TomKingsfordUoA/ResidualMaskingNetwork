@@ -222,6 +222,12 @@ I used no-weighted sum avarage ensemble method to fusing 7 different models toge
 
 
 
+## Data Versioning
+
+DVC has been used to track various data processing and model training stages. This ensures both repeatability and posterity, as the nature of processing is recorded as are the results. The actual data is stored in an S3-compliant object store which isn't publicly available. Artifacts can be made available upon request to tkin063@aucklanduni.ac.nz.
+
+
+
 <p id="docs"></p>
 
 

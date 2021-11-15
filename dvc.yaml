@@ -1,0 +1,20 @@
+stages:
+  train:
+    cmd: python main_fer2013.py
+    deps:
+    - data/test.csv
+    - data/train.csv
+    - data/val.csv
+    - main_fer2013.py
+    outs:
+    - checkpoint
+  predict:
+    cmd: PYTHONPATH=/home/tom/projects/ResidualMaskingNetwork python notebooks/predict.py
+    deps:
+    - data/test.csv
+    - data/train.csv
+    - data/val.csv
+    - notebooks/predict.py
+    outs:
+    - data/test_pred.csv
+    - data/train_pred.csv

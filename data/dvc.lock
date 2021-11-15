@@ -1,0 +1,34 @@
+schema: '2.0'
+stages:
+  extract_fer2013:
+    cmd: cd FER2013; tar -xzf fer2013.tar.gz; mv fer2013 ../fer2013_extracted
+    deps:
+    - path: FER2013
+      md5: 7ee7c16cb81f6f288686b15989a9b9b7.dir
+      size: 698338959
+      nfiles: 5
+    outs:
+    - path: fer2013_extracted
+      md5: 608f0384c9caa063b6f185e77df67473.dir
+      size: 301074632
+      nfiles: 3
+  train_val_test_split_fer2013:
+    cmd: python3 split_data.py
+    deps:
+    - path: fer2013_extracted
+      md5: 608f0384c9caa063b6f185e77df67473.dir
+      size: 301074632
+      nfiles: 3
+    - path: split_data.py
+      md5: 706a99dd824944d4aff13b40022174a0
+      size: 803
+    outs:
+    - path: test.csv
+      md5: 15ff743fb93be14751def9ee1301a227
+      size: 30075051
+    - path: train.csv
+      md5: c0f1cbc813a3b9d55137414cb83bcff6
+      size: 192562767
+    - path: val.csv
+      md5: cd8565ffb363851dd9a868bd45c3b61d
+      size: 48108489

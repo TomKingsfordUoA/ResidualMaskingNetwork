@@ -1,0 +1,44 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python main_fer2013.py
+    deps:
+    - path: data/test.csv
+      md5: 15ff743fb93be14751def9ee1301a227
+      size: 30075051
+    - path: data/train.csv
+      md5: c0f1cbc813a3b9d55137414cb83bcff6
+      size: 192562767
+    - path: data/val.csv
+      md5: cd8565ffb363851dd9a868bd45c3b61d
+      size: 48108489
+    - path: main_fer2013.py
+      md5: 3430a60fb77fa891fd8e959c4d28b44e
+      size: 2045
+    outs:
+    - path: checkpoint
+      md5: 7dae26de882923c9a7c7a9e64ce2547e.dir
+      size: 85262062
+      nfiles: 1
+  predict:
+    cmd: PYTHONPATH=/home/tom/projects/ResidualMaskingNetwork python notebooks/predict.py
+    deps:
+    - path: data/test.csv
+      md5: 15ff743fb93be14751def9ee1301a227
+      size: 30075051
+    - path: data/train.csv
+      md5: c0f1cbc813a3b9d55137414cb83bcff6
+      size: 192562767
+    - path: data/val.csv
+      md5: cd8565ffb363851dd9a868bd45c3b61d
+      size: 48108489
+    - path: notebooks/predict.py
+      md5: addd9ed13af0eead1dcffae41d78c563
+      size: 2857
+    outs:
+    - path: data/test_pred.csv
+      md5: 2ef96f508271f57ae5826e682a344706
+      size: 3065919
+    - path: data/train_pred.csv
+      md5: ffd50c3ce4f04c8bbded74db1986e747
+      size: 1960323
